@@ -1,3 +1,5 @@
+import pytest
+
 from src import processing
 
 
@@ -26,7 +28,8 @@ def test_sort_by_date(dict_list_processing):
 # Тест без ключа 'state'
 # '''
 def test_no_key_filter(dict_list_no_key):
-    assert processing.filter_by_state(dict_list_no_key) == "Введены не верные данные."
+    with pytest.raises(ValueError, match="Введены не верные данные"):
+        processing.filter_by_state(dict_list_no_key)
 
 
 def test_no_key_sort(dict_list_no_key):
@@ -49,7 +52,8 @@ def test_no_date_filter(dict_list_no_date):
 
 
 def test_no_date_sort(dict_list_no_date):
-    assert processing.sort_by_date(dict_list_no_date) == "Введены не верные данные."
+    with pytest.raises(ValueError, match="Введены не верные данные"):
+        processing.sort_by_date(dict_list_no_date)
 
 
 # '''
@@ -63,4 +67,5 @@ def test_state(dict_list_state):
 # Тест сортировки для статуса 'date'
 # '''
 def test_date(dict_list_date):
-    assert processing.sort_by_date(dict_list_date) == "Введены не верные данные."
+    with pytest.raises(ValueError, match="Введены не верные данные"):
+        processing.sort_by_date(dict_list_date)
