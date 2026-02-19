@@ -215,6 +215,4 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-.flake8
 tests/
-
