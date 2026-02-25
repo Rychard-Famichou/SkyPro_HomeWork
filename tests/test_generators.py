@@ -1,3 +1,6 @@
+import pytest
+from pytest_lazy_fixtures import lf
+
 from src import generators
 
 
@@ -56,6 +59,19 @@ def test_filter_by_currency(generators_dict_list):
     assert list(generators.filter_by_currency(generators_dict_list, "RUB")) == rub_expected
 
 
+@pytest.mark.parametrize(
+    "dict_list, code, expected",
+    [
+        (lf("generators_dict_list"), "USD", lf("generators_dict_usd")),
+        (lf("generators_dict_list"), "RUB", lf("generators_dict_rub")),
+        ([], "USD", {"error": "Введены не верные данные."}),
+        (lf("generators_dict_list"), "PL", {"error": "Транзакции в заданной валюте отсутствуют"}),
+    ],
+)
+def test_filter(dict_list, code, expected):
+    assert next(generators.filter_by_currency(dict_list, code)) == expected
+
+
 # Тест правильных данных
 def test_transaction_descriptions(generators_dict_list):
     expected = [
@@ -69,27 +85,43 @@ def test_transaction_descriptions(generators_dict_list):
 
 
 # Тест правильных данных
-def test_card_number_generator():
-    expected = [
-        "0000 0000 0000 9995",
-        "0000 0000 0000 9996",
-        "0000 0000 0000 9997",
-        "0000 0000 0000 9998",
-        "0000 0000 0000 9999",
-    ]
-    assert list(generators.card_number_generator(9995, 9999)) == expected
+@pytest.mark.parametrize(
+    "start, stop, expected",
+    [
+        (
+            9999999999999998,
+            9999999999999999,
+            [
+                "9999 9999 9999 9998",
+                "9999 9999 9999 9999",
+            ],
+        ),
+        (12345678, 12345678, ["0000 0000 1234 5678"]),
+        (
+            1,
+            3,
+            [
+                "0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003",
+            ],
+        ),
+    ],
+)
+def test_card_number_generator(start, stop, expected):
+    assert list(generators.card_number_generator(start, stop)) == expected
 
 
-# Тест: Проверьте, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют
-def test_pl_filter(generators_dict_list):
-    pl_transactions = generators.filter_by_currency(generators_dict_list, "PL")
-    assert next(pl_transactions) == {"error": "Транзакции в заданной валюте отсутствуют"}
-
-
-# Тест: Убедитесь, что генератор не завершается ошибкой при обработке пустого списка.
-def test_empty_filter():
-    empty_data = generators.filter_by_currency([], "USD")
-    assert next(empty_data) == {"error": "Введены не верные данные."}
+# # Тест: Проверьте, что функция правильно обрабатывает случаи, когда транзакции в заданной валюте отсутствуют
+# def test_pl_filter(generators_dict_list):
+#     pl_transactions = generators.filter_by_currency(generators_dict_list, "PL")
+#     assert next(pl_transactions) == {"error": "Транзакции в заданной валюте отсутствуют"}
+#
+#
+# # Тест: Убедитесь, что генератор не завершается ошибкой при обработке пустого списка.
+# def test_empty_filter():
+#     empty_data = generators.filter_by_currency([], "USD")
+#     assert next(empty_data) == {"error": "Введены не верные данные."}
 
 
 # Тест: Убедитесь, что генератор не завершается ошибкой при обработке пустого списка.
