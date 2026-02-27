@@ -1,4 +1,5 @@
 import pytest
+
 from src import decorators
 from src.decorators import log
 
@@ -9,8 +10,7 @@ def test_add(capsys):
     """
     decorators.add(1, 2)
     captured = capsys.readouterr()
-    assert captured.out.strip() == \
-           "add ok"
+    assert captured.out.strip() == "add ok"
 
 
 def test_add_error(capsys):
@@ -21,8 +21,7 @@ def test_add_error(capsys):
         decorators.add(1, "2")
 
     captured = capsys.readouterr()
-    assert captured.out.strip() == \
-           "add error: TypeError. Inputs: (1, '2'), {}"
+    assert captured.out.strip() == "add error: TypeError. Inputs: (1, '2'), {}"
 
 
 def test_divide(capsys):
@@ -31,8 +30,7 @@ def test_divide(capsys):
     """
     decorators.divide(2, 1)
     captured = capsys.readouterr()
-    assert captured.out.strip() == \
-           "divide ok"
+    assert captured.out.strip() == "divide ok"
 
 
 def test_divide_error(capsys):
@@ -43,8 +41,7 @@ def test_divide_error(capsys):
         decorators.divide(1, 0)
 
     captured = capsys.readouterr()
-    assert captured.out.strip() == \
-        "divide error: ZeroDivisionError. Inputs: (1, 0), {}"
+    assert captured.out.strip() == "divide error: ZeroDivisionError. Inputs: (1, 0), {}"
 
 
 def test_log_file_ok(tmp_path):
@@ -59,6 +56,7 @@ def test_log_file_ok(tmp_path):
 
     # временно подменим папку logs
     from src import decorators
+
     decorators.LOGS_DIR = tmp_path
 
     add(2, 3)
@@ -74,6 +72,7 @@ def test_log_file_error(tmp_path):
     log_file = tmp_path / "test_log.txt"
 
     from src import decorators
+
     decorators.LOGS_DIR = tmp_path
 
     @log(filename=log_file.name)
@@ -84,5 +83,4 @@ def test_log_file_error(tmp_path):
         divide(1, 0)
 
     content = log_file.read_text(encoding="utf-8").strip()
-    assert content == \
-        "divide error: ZeroDivisionError. Inputs: (1, 0), {}"
+    assert content == "divide error: ZeroDivisionError. Inputs: (1, 0), {}"
