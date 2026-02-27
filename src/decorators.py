@@ -42,15 +42,25 @@ def log(filename=None):
     return decorator
 
 
-@log(filename="mylog.txt")
-def my_function(x, y):
-    return x + y
+@log()
+def add(x, y):
+    """
+    Функция сложения двух чисел.
+    """
+    x + y
 
-my_function(1, 2)
+
+# if __name__ == "__main__":
+#     add(1, 2)
 
 
 @log()
 def divide(x, y):
-    return x / y
+    """
+    Функция деления двух чисел.
+    """
+    x / y
 
-divide(1, 0)
+
+# if __name__ == "__main__":
+#     divide(1, 0)
