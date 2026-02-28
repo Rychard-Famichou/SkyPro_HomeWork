@@ -40,10 +40,10 @@ project/
 `git clone https://github.com/Rychard-Famichou/SkyPro_HomeWork.git`
 
 2. Установить зависимости:
-
-`poetry install`
-`pip install pytest`
-
+```
+poetry install
+pip install pytest
+```
 3. Запустить тесты:
 
 `pytest`
@@ -169,9 +169,8 @@ _Результат:_
 
 `**7890`
 
-### 📝 Декоратор логирования log
 ## 8️⃣ log
-
+### 📝 Декоратор логирования log
 Декоратор для автоматического логирования выполнения функции.
 
 **Позволяет фиксировать:**
@@ -245,6 +244,83 @@ divide(5, 0)
 
 Если папки `logs` нет — она создаётся автоматически.
 
+## 9️⃣ load_operations
+### 📂 Работа с JSON и конвертацией валют
+Функция загружает данные из JSON-файла и преобразует их в Python-объект.
+
+`load_operations(file_path: str | Path) -> list[dict[str, Any]]`
+
+### 📌 Поведение:
+
+- Возвращает список операций, если файл корректный.
+- Возвращает пустой список [], если:
+  - файл не найден
+  - файл пустой
+  - файл содержит некорректный JSON
+  - JSON не является списком
+
+**Пример использования:**
+```
+from src.utils import load_operations
+
+operations = load_operations("data/operations.json")
+print(operations)
+```
+
+## 🔟 get_operation_amount
+
+Функция возвращает сумму операции в формате float.
+
+`get_operation_amount(operation: dict) -> float`
+### 📌 Поведение:
+
+* Если валюта операции — RUB, возвращается сумма напрямую.
+* Если валюта — USD или EUR, выполняется конвертация в RUB через внешний API.
+* Возвращаемое значение всегда имеет тип float.
+
+**Пример:**
+```
+from src.utils import get_operation_amount
+
+amount = get_operation_amount(operation)
+print(amount)
+```
+
+## 1️⃣1️⃣ get_conversion
+
+Функция конвертирует сумму операции в рубли (RUB) с использованием внешнего API.
+
+`get_conversion(operation: dict) -> dict`
+### 🔐 Требования:
+
+Для работы функции необходимо установить переменную окружения:
+
+`APILAYER_TOKEN`
+
+### 📌 Принцип работы:
+
+1. Получает валюту операции (USD, EUR и т.д.)
+2. Отправляет запрос к API apilayer
+3. Получает курс конвертации
+4. Обновляет сумму операции в рублях
+5. Возвращает обновлённый словарь операции
+
+**Пример:**
+```
+from src.external_api import get_conversion
+
+converted_operation = get_conversion(operation)
+```
+---
+## 🌍 Используемый API
+
+Для конвертации валют используется сервис:
+
+`https://api.apilayer.com/exchangerates_data`
+
+Запрос выполняется через библиотеку `requests`.
+
+---
 ## 🧪 Тестирование
 
 Проект покрыт тестами с использованием pytest.

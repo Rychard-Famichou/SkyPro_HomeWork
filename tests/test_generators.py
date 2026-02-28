@@ -22,13 +22,9 @@ def test_generate_operation_empty():
         (
             lf("generators_dict_list"),
             "USD",
-            [lf("generators_dict_939719570"), lf("generators_dict_142264268"), lf("generators_dict_895315941")]
+            [lf("generators_dict_939719570"), lf("generators_dict_142264268"), lf("generators_dict_895315941")],
         ),
-        (
-            lf("generators_dict_list"),
-            "RUB",
-            [lf("generators_dict_873106923"), lf("generators_dict_594226727")]
-        ),
+        (lf("generators_dict_list"), "RUB", [lf("generators_dict_873106923"), lf("generators_dict_594226727")]),
     ],
 )
 def test_filter_1(dict_list, code, expected_fixtures):

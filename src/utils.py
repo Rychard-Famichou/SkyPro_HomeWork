@@ -3,8 +3,9 @@ from pathlib import Path
 from typing import Any
 
 from src import external_api
-from src import generators
-from src.config import OPERATIONS_FILE
+
+# from src import generators
+# from src.config import OPERATIONS_FILE
 
 
 def load_operations(file_path: str | Path) -> list[dict[str, Any]]:
@@ -22,7 +23,7 @@ def load_operations(file_path: str | Path) -> list[dict[str, Any]]:
 
         return data
 
-    except (FileNotFoundError, json.JSONDecodeError):
+    except FileNotFoundError, json.JSONDecodeError:
         return []
 
 

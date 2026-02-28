@@ -1,9 +1,12 @@
 import json
-import pytest
-from unittest.mock import patch, mock_open
 from pathlib import Path
-from src import utils
+from unittest.mock import mock_open
+from unittest.mock import patch
+
+import pytest
 from pytest_lazy_fixtures import lf
+
+from src import utils
 
 
 @patch("builtins.open", new_callable=mock_open, read_data='[{"id": 1, "amount": "100"}]')
@@ -26,7 +29,7 @@ def test_load_operations_file_not_found(mock_file):
     assert result == []
 
 
-@patch("builtins.open", new_callable=mock_open, read_data='invalid json')
+@patch("builtins.open", new_callable=mock_open, read_data="invalid json")
 def test_load_operations_json_decode_error(mock_file):
     """Тест ошибки декодирования JSON"""
     with patch("json.load", side_effect=json.JSONDecodeError("msg", "doc", 0)):
@@ -50,5 +53,5 @@ def test_load_operations_not_a_list(mock_file):
     ],
 )
 def test_filter_2(dict_list, expected):
-    """ Тест: "amount"="RUB" преобразуется в float """
+    """Тест: "amount"="RUB" преобразуется в float"""
     assert utils.get_operation_amount(dict_list) == expected
