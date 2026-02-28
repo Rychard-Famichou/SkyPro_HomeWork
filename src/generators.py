@@ -5,6 +5,8 @@ def generate_operation(operations: list) -> Iterator[dict]:
     """
     Возвращает итератор, который поочередно выдает транзакции для модуля __utils.py__
     """
+    if not operations:
+        return
     for operation in operations:
         yield operation
 

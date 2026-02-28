@@ -203,9 +203,9 @@ def generators_dict_list():
     ]
 
 
-# Словарь USD операций для generators.py
+# Словарь 939719570 операций для generators.py
 @pytest.fixture
-def generators_dict_usd():
+def generators_dict_939719570():
     return {
         "id": 939719570,
         "state": "EXECUTED",
@@ -217,9 +217,23 @@ def generators_dict_usd():
     }
 
 
-# Словарь RUB операций для generators.py
+# Словарь 142264268 операций для generators.py
 @pytest.fixture
-def generators_dict_rub():
+def generators_dict_142264268():
+    return {
+        "id": 142264268,
+        "state": "EXECUTED",
+        "date": "2019-04-04T23:20:05.206878",
+        "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
+        "description": "Перевод со счета на счет",
+        "from": "Счет 19708645243227258542",
+        "to": "Счет 75651667383060284188",
+    }
+
+
+# Словарь 873106923 операций для generators.py
+@pytest.fixture
+def generators_dict_873106923():
     return {
         "id": 873106923,
         "state": "EXECUTED",
@@ -229,3 +243,32 @@ def generators_dict_rub():
         "from": "Счет 44812258784861134719",
         "to": "Счет 74489636417521191160",
     }
+
+
+# Словарь 895315941 операций для generators.py
+@pytest.fixture
+def generators_dict_895315941():
+    return {
+            "id": 895315941,
+            "state": "EXECUTED",
+            "date": "2018-08-19T04:27:37.904916",
+            "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
+            "description": "Перевод с карты на карту",
+            "from": "Visa Classic 6831982476737658",
+            "to": "Visa Platinum 8990922113665229",
+    }
+
+
+# Словарь 594226727 операций для generators.py
+@pytest.fixture
+def generators_dict_594226727():
+    return {
+            "id": 594226727,
+            "state": "CANCELED",
+            "date": "2018-09-12T21:27:25.241689",
+            "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+            "description": "Перевод организации",
+            "from": "Visa Platinum 1246377376343588",
+            "to": "Счет 14211924144426031657",
+    }
+
