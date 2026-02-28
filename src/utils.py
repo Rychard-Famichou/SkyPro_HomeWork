@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 from typing import Any
-from src.config import OPERATIONS_FILE
-from src import generators
+
 from src import external_api
+from src import generators
+from src.config import OPERATIONS_FILE
 
 
 def load_operations(file_path: str | Path) -> list[dict[str, Any]]:
@@ -35,15 +36,16 @@ def get_operation_amount(operation: dict) -> float:
     return float(operation.get("operationAmount", {}).get("amount"))
 
 
-def get_work_experience():
-    '''
+def get_work_experience() -> None:
+    """
     Имитация работы приложения
-    '''
+    """
     counter = int(input("Введите количество операций: "))
     operations = load_operations(OPERATIONS_FILE)
     gen = generators.generate_operation(operations)
     for operation in range(1, counter + 1):
         amount = get_operation_amount(next(gen))
         print(f"{amount} RUB")
+
 
 get_work_experience()

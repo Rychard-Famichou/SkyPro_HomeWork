@@ -1,4 +1,9 @@
+import os
+
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_conversion(operation: dict) -> dict:
@@ -8,11 +13,10 @@ def get_conversion(operation: dict) -> dict:
     actual_code = operation.get("operationAmount", {}).get("currency", {}).get("code")
     amount = operation.get("operationAmount", {}).get("amount")
 
-    headers = {
-        "apikey": "5ce3aJK7ZYMrBt24OtniuilwmiATTgot"
-    }
-
-    response = requests.get(f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={actual_code}&amount={amount}", headers=headers)
+    apilayer_token = os.getenv("APILAYER_TOKEN")
+    headers = {"apikey": apilayer_token}
+    url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={actual_code}&amount={amount}"
+    response = requests.get(url, headers=headers)
 
     data = response.json()
     converted_amount = data.get("result")
@@ -20,5 +24,3 @@ def get_conversion(operation: dict) -> dict:
     operation["operationAmount"]["amount"] = converted_amount
 
     return operation
-
-
