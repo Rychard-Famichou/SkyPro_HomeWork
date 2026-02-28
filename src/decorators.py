@@ -1,15 +1,13 @@
 from functools import wraps
-from pathlib import Path
 from typing import Callable
 from typing import Optional
 from typing import ParamSpec
 from typing import TypeVar
 
+from src.config import LOGS_DIR
+
 P = ParamSpec("P")
 R = TypeVar("R")
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-LOGS_DIR = BASE_DIR / "logs"
 
 
 def log(filename: Optional[str] = None) -> Callable[[Callable[P, R]], Callable[P, R]]:
