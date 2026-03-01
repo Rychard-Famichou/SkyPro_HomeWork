@@ -1,4 +1,3 @@
-
 from src import generators
 from src import utils
 from src import widget
@@ -6,15 +5,21 @@ from src.config import OPERATIONS_FILE
 
 
 def get_operation_date(operation: dict) -> str:
-    return widget.get_date(operation.get("date"))
+    """Достаёт данные: дата операции"""
+    # Если "date" нет, передаем пустую строку
+    return widget.get_date(operation.get("date", ""))
 
 
 def get_account_card_from(operation: dict) -> str:
-    return widget.mask_account_card(operation.get("from"))
+    """Достаёт данные: номер, откуда совершена операция"""
+    # Если "from" нет, передаем пустую строку
+    return widget.mask_account_card(operation.get("from", ""))
 
 
 def get_account_card_to(operation: dict) -> str:
-    return widget.mask_account_card(operation.get("to"))
+    """Достаёт данные: номер, куда совершена операция"""
+    # Если "to" нет, передаем пустую строку
+    return widget.mask_account_card(operation.get("to", ""))
 
 
 def main() -> None:
@@ -29,7 +34,6 @@ def main() -> None:
 
     operations = utils.load_operations(OPERATIONS_FILE)
     gen = generators.generate_operation(operations)
-
 
     for operation in range(1, counter + 1):
         actual_operation = next(gen)

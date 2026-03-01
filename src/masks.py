@@ -1,10 +1,9 @@
 import logging
 
-
 actual_logger = logging.getLogger("masks")
 actual_logger.setLevel(logging.DEBUG)
 actual_handler = logging.FileHandler("logs/masks.log", encoding="utf-8", mode="w")
-actual_formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
+actual_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 actual_handler.setFormatter(actual_formatter)
 actual_logger.addHandler(actual_handler)
 
@@ -30,7 +29,7 @@ def get_mask_card_number(card_number: str) -> str:
         # TypeError — если передали не строку
         # ValueError — если длина не 16
         # AttributeError — если у объекта нет метода среза
-        actual_logger.error(f'Произошла ошибка: {e}', exc_info=True)
+        actual_logger.error(f"Произошла ошибка: {e}", exc_info=True)
         return "Введены не верные данные."
 
     finally:
@@ -55,7 +54,7 @@ def get_mask_account(account_number: str) -> str:
     except (TypeError, ValueError, AttributeError) as e:
         # TypeError — если передано не строковое значение
         # ValueError — если длина не соответствует 20
-        actual_logger.error(f'Произошла ошибка: {e}', exc_info=True)
+        actual_logger.error(f"Произошла ошибка: {e}", exc_info=True)
         return "Введены не верные данные."
 
     finally:

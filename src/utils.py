@@ -1,15 +1,14 @@
 import json
+import logging
 from pathlib import Path
 from typing import Any
 
 from src import external_api
-import logging
-
 
 actual_logger = logging.getLogger("utils")
 actual_logger.setLevel(logging.DEBUG)
 actual_handler = logging.FileHandler("logs/utils.log", encoding="utf-8", mode="w")
-actual_formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
+actual_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 actual_handler.setFormatter(actual_formatter)
 actual_logger.addHandler(actual_handler)
 
@@ -55,10 +54,10 @@ def get_operation_amount(operation: dict) -> float:
             external_api.get_conversion(operation)
 
             # Берем обновленное значение
-            actual_logger.info(f"Конвертация валюты в RUB")
+            actual_logger.info("Конвертация валюты в RUB")
             return float(operation["operationAmount"]["amount"])
 
-        actual_logger.info(f"Функция отработала в штатном режиме")
+        actual_logger.info("Функция отработала в штатном режиме")
         return float(raw_amount)
 
     except (KeyError, TypeError, ValueError) as e:
