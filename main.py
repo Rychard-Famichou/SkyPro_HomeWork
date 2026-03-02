@@ -1,7 +1,8 @@
 from src import generators
 from src import utils
 from src import widget
-from src.config import OPERATIONS_FILE
+from src import readers
+from src.config import OPERATIONS_JSON_FILE, TRANSACTIONS_CSV_FILE, TRANSACTIONS_EXCEL_FILE
 
 
 def get_operation_date(operation: dict) -> str:
@@ -32,7 +33,7 @@ def main() -> None:
 
     print()
 
-    operations = utils.load_operations(OPERATIONS_FILE)
+    operations = utils.load_operations(OPERATIONS_JSON_FILE)
     gen = generators.generate_operation(operations)
 
     for operation in range(1, counter + 1):
@@ -47,5 +48,15 @@ def main() -> None:
         print()
 
 
+def run_readers() -> None:
+    dict_1 = readers.read_data_csv(TRANSACTIONS_CSV_FILE)
+    dict_2 = readers.read_data_excel(TRANSACTIONS_EXCEL_FILE)
+
+    print(f"CSV data: {dict_1}")
+    print()
+    print(f"Excel data: {dict_2}")
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    run_readers()
