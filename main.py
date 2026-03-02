@@ -49,12 +49,13 @@ def main() -> None:
 
 
 def run_readers() -> None:
-    dict_1 = readers.read_data_csv(TRANSACTIONS_CSV_FILE)
-    dict_2 = readers.read_data_excel(TRANSACTIONS_EXCEL_FILE)
+    """ Проверка работы с data """
+    list_1 = readers.read_data_csv(TRANSACTIONS_CSV_FILE)
+    list_2 = readers.read_data_excel(TRANSACTIONS_EXCEL_FILE)
 
-    print(f"CSV data: {dict_1}")
+    print(f"CSV data: {list_1}")
     print()
-    print(f"Excel data: {dict_2}")
+    print(f"Excel data: {list_2}")
 
 
 if __name__ == "__main__":
