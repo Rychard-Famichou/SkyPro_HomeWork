@@ -52,6 +52,12 @@ def test_load_operations_not_a_list(mock_file):
         (lf("generators_dict_594226727"), 67314.70),
     ],
 )
-def test_filter_2(dict_list, expected):
+def test_get_operation_amount_1(dict_list, expected):
     """Тест: "amount"="RUB" преобразуется в float"""
     assert utils.get_operation_amount(dict_list) == expected
+
+
+def test_get_operation_amount_2(is_right_data_2):
+    """Тест: "amount"="RUB" преобразуется в float"""
+    data, expected = is_right_data_2
+    assert utils.get_operation_amount(data) == expected
