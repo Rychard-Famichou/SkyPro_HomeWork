@@ -1,8 +1,10 @@
 from src import generators
+from src import readers
 from src import utils
 from src import widget
-from src import readers
-from src.config import OPERATIONS_JSON_FILE, TRANSACTIONS_CSV_FILE, TRANSACTIONS_EXCEL_FILE
+from src.config import OPERATIONS_JSON_FILE
+from src.config import TRANSACTIONS_CSV_FILE
+from src.config import TRANSACTIONS_EXCEL_FILE
 
 
 def get_operation_date(operation: dict) -> str:
@@ -49,7 +51,8 @@ def main() -> None:
 
 
 def run_readers() -> None:
-    """ Проверка работы с data """
+    """Проверка работы с data"""
+
     list_1 = readers.read_data_csv(TRANSACTIONS_CSV_FILE)
     list_2 = readers.read_data_excel(TRANSACTIONS_EXCEL_FILE)
 
