@@ -1,3 +1,4 @@
+from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
@@ -10,8 +11,8 @@ from src import readers
 @pytest.mark.parametrize(
     "reader_func, pd_method, file_path",
     [
-        (readers.read_data_csv, "pandas.read_csv", "test.csv"),
-        (readers.read_data_excel, "pandas.read_excel", "test.xlsx"),
+        (readers.read_data_csv, "pandas.read_csv", Path("test.csv")),
+        (readers.read_data_excel, "pandas.read_excel", Path("test.xlsx")),
     ],
 )
 def test_readers_success(reader_func, pd_method, file_path):
@@ -59,7 +60,7 @@ def test_all_readers_errors(pd_method, reader_func, exception):
     with patch(pd_method) as mock_method:
         mock_method.side_effect = exception
 
-        result = reader_func("fake_path")
+        result = reader_func(Path("fake_path"))
 
         assert result == []
         mock_method.assert_called_once()
