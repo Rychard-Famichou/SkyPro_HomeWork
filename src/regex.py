@@ -19,7 +19,10 @@ def filter_operations_by_description(
     ]
 
 
-def count_operations_by_category(operations:list[dict], categories:list)->dict:
+def count_operations_by_category(
+    operations: list[dict[str, Any]],
+    categories: list[str]
+) -> dict[str, int]:
     """
     Возвращает словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой категории.
     """

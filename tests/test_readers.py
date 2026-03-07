@@ -1,66 +1,86 @@
+import json
 from pathlib import Path
-from unittest.mock import MagicMock
-from unittest.mock import patch
-
-import pandas as pd
-import pytest
+from unittest.mock import patch, mock_open
 
 from src import readers
 
 
+def test_read_data_json_success():
+    expected = [{"id": 1, "val": "ok"}]
+
+    with patch("builtins.open", mock_open(read_data=json.dumps(expected))):
+        result = readers.read_data_json(Path("test.json"))
+
+    assert result == expected
+
+import pytest
+
+
 @pytest.mark.parametrize(
-    "reader_func, pd_method, file_path",
+    "exception",
     [
-        (readers.read_data_csv, "pandas.read_csv", Path("test.csv")),
-        (readers.read_data_excel, "pandas.read_excel", Path("test.xlsx")),
+        FileNotFoundError,
+        json.JSONDecodeError("msg", "doc", 1),
+        TypeError,
     ],
 )
-def test_readers_success(reader_func, pd_method, file_path):
-    """Универсальный тест успешного чтения для CSV и Excel"""
-    # Добавить json_load из utils?
+def test_read_data_json_errors(exception):
 
-    with patch(pd_method) as mock_pd:
-        # Создаем фальшивый DataFrame
+    with patch("builtins.open", side_effect=exception):
+        result = readers.read_data_json(Path("fake.json"))
+
+    assert result == []
+
+import pandas as pd
+from unittest.mock import MagicMock
+
+
+@pytest.mark.parametrize(
+    "reader_func, pd_method",
+    [
+        (readers.read_data_csv, "pandas.read_csv"),
+        (readers.read_data_excel, "pandas.read_excel"),
+    ],
+)
+def test_pandas_readers_success(reader_func, pd_method):
+
+    with patch(pd_method) as mock_reader:
+
         mock_df = MagicMock()
-        expected_data = [{"id": 1, "val": "ok"}]
-        mock_df.to_dict.return_value = expected_data
+        expected = [{"id": 1, "val": "ok"}]
 
-        # Настраиваем мок pandas (read_csv/read_excel)
-        mock_pd.return_value = mock_df
+        mock_df.to_dict.return_value = expected
+        mock_reader.return_value = mock_df
 
-        # Выполняем
-        result = reader_func(file_path)
+        result = reader_func(Path("file"))
 
-        # Проверяем
-        assert result == expected_data
-        mock_pd.assert_called_once_with(file_path)
+        assert result == expected
+        mock_reader.assert_called_once()
         mock_df.to_dict.assert_called_once_with(orient="records")
 
 
 @pytest.mark.parametrize(
     "reader_func, pd_method",
-    [(readers.read_data_csv, "pandas.read_csv"), (readers.read_data_excel, "pandas.read_excel")],
+    [
+        (readers.read_data_csv, "pandas.read_csv"),
+        (readers.read_data_excel, "pandas.read_excel"),
+    ],
 )
 @pytest.mark.parametrize(
     "exception",
     [
         FileNotFoundError,
-        pd.errors.EmptyDataError,
-        pd.errors.ParserError,
         TypeError,
         ValueError,
-        UnicodeDecodeError("utf-8", b"", 1, 2, "reason"),  # требует аргументы для инициализации
+        pd.errors.EmptyDataError(),
+        pd.errors.ParserError("bad file"),
+        UnicodeDecodeError("utf-8", b"", 0, 1, "bad"),
     ],
 )
-def test_all_readers_errors(pd_method, reader_func, exception):
-    """Общий тест для CSV и Excel на обработку ошибок"""
-    # Добавить json_load из utils?
+def test_pandas_readers_errors(reader_func, pd_method, exception):
 
-    # Используем patch как контекстный менеджер, так как путь к методу меняется
-    with patch(pd_method) as mock_method:
-        mock_method.side_effect = exception
+    with patch(pd_method, side_effect=exception):
 
-        result = reader_func(Path("fake_path"))
+        result = reader_func(Path("file"))
 
         assert result == []
-        mock_method.assert_called_once()
