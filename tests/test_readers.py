@@ -1,6 +1,11 @@
 import json
 from pathlib import Path
-from unittest.mock import patch, mock_open
+from unittest.mock import MagicMock
+from unittest.mock import mock_open
+from unittest.mock import patch
+
+import pandas as pd
+import pytest
 
 from src import readers
 
@@ -12,8 +17,6 @@ def test_read_data_json_success():
         result = readers.read_data_json(Path("test.json"))
 
     assert result == expected
-
-import pytest
 
 
 @pytest.mark.parametrize(
@@ -30,9 +33,6 @@ def test_read_data_json_errors(exception):
         result = readers.read_data_json(Path("fake.json"))
 
     assert result == []
-
-import pandas as pd
-from unittest.mock import MagicMock
 
 
 @pytest.mark.parametrize(

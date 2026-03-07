@@ -1,13 +1,12 @@
 from src import generators
 from src import processing
 from src import readers
+from src import regex
 from src import utils
 from src import widget
-from src import regex
 from src.config import OPERATIONS_JSON_FILE
 from src.config import TRANSACTIONS_CSV_FILE
 from src.config import TRANSACTIONS_EXCEL_FILE
-
 
 FILE_READERS = {
     1: ("JSON", readers.read_data_json, OPERATIONS_JSON_FILE),
@@ -114,7 +113,7 @@ def main() -> None:
 
     print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет")
     filter_ok = input().lower()
-    if  filter_ok == "да":
+    if filter_ok == "да":
         word = input("Введите ключевое слово: ")
         operations = regex.filter_operations_by_description(operations, word)
 
@@ -136,7 +135,7 @@ def main() -> None:
         print(f"{account_card_from} -> {account_card_to}")
         print(f"Сумма: {amount} {amount_name}")
 
-    if  len(operations) < 1:
+    if len(operations) < 1:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 
 

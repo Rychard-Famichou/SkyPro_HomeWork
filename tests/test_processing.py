@@ -29,7 +29,6 @@ def test_sort_by_date(dict_list_processing):
     ]
 
 
-
 # Тест без ключа 'state'
 def test_no_key_sort(dict_list_no_key):
     assert processing.sort_by_date(dict_list_no_key) == [
