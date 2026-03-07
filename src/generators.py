@@ -3,7 +3,7 @@ from collections.abc import Iterator
 
 def generate_operation(operations: list) -> Iterator[dict]:
     """
-    Возвращает итератор, который поочередно выдает транзакции для модуля __utils.py__
+    Возвращает итератор, который поочередно выдает транзакции для модуля __main.py__
     """
     if not operations:
         return
