@@ -78,3 +78,45 @@ def test_count_operations_empty_list():
     result = regex.count_operations_by_category([], ["Перевод"])
 
     assert result == {"Перевод": 0}
+
+
+def test_filter_operations_regex():
+
+    operations = [
+        {"description": "Перевод организации"},
+        {"description": "Оплата услуг"},
+        {"description": "Снятие наличных"},
+    ]
+
+    result = regex.filter_operations_by_description(operations, "перевод|оплата")
+
+    assert len(result) == 2
+
+
+def test_filter_operations_without_description():
+
+    operations = [
+        {"description": "Перевод"},
+        {"amount": 1000},  # нет description
+    ]
+
+    result = regex.filter_operations_by_description(operations, "перевод")
+
+    assert result == [{"description": "Перевод"}]
+
+
+def test_count_operations_missing_description():
+
+    operations = [
+        {"description": "Перевод"},
+        {"amount": 100},  # нет description
+    ]
+
+    categories = ["Перевод", "Оплата"]
+
+    result = regex.count_operations_by_category(operations, categories)
+
+    assert result == {
+        "Перевод": 1,
+        "Оплата": 0,
+    }
