@@ -10,7 +10,7 @@ from src.config import TRANSACTIONS_EXCEL_FILE
 
 
 FILE_READERS = {
-    1: ("JSON", readers.load_operations, OPERATIONS_JSON_FILE),
+    1: ("JSON", readers.read_data_json, OPERATIONS_JSON_FILE),
     2: ("CSV", readers.read_data_csv, TRANSACTIONS_CSV_FILE),
     3: ("XLSX", readers.read_data_excel, TRANSACTIONS_EXCEL_FILE),
 }

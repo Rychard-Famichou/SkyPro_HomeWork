@@ -13,7 +13,7 @@ actual_handler.setFormatter(actual_formatter)
 actual_logger.addHandler(actual_handler)
 
 
-def load_operations(file_path: Path) -> list[dict[str, Any]]:
+def read_data_json(file_path: Path) -> list[dict[str, Any]]:
     """Возвращает список словарей из json"""
     actual_logger.info("Старт работы функии: загрузка json-файла.")
     try:
@@ -34,7 +34,7 @@ def load_operations(file_path: Path) -> list[dict[str, Any]]:
         actual_logger.info("Конец работы функции: загрузка json-файла.\n" + "=" * 30)
 
 
-def read_data_csv(csv_path: Path) -> list[dict[Any, Any]]:
+def read_data_csv(csv_path: Path) -> list[dict[str, Any]]:
     """Возвращает список словарей из csv"""
     actual_logger.info("Старт работы функии: загрузка csv-файла.")
     try:
@@ -57,10 +57,10 @@ def read_data_csv(csv_path: Path) -> list[dict[Any, Any]]:
         actual_logger.error(f"Ошибка при загрузке: {e}")
         return []
     finally:
-        actual_logger.info("Конец работы функции: загрузка json-файла.\n" + "=" * 30)
+        actual_logger.info("Конец работы функции: загрузка csv-файла.\n" + "=" * 30)
 
 
-def read_data_excel(excel_path: Path) -> list[dict[Any, Any]]:
+def read_data_excel(excel_path: Path) -> list[dict[str, Any]]:
     """Возвращает список словарей из excel"""
     actual_logger.info("Старт работы функии: загрузка excel-файла.")
     try:
@@ -78,4 +78,4 @@ def read_data_excel(excel_path: Path) -> list[dict[Any, Any]]:
         actual_logger.error(f"Ошибка при загрузке: {e}")
         return []
     finally:
-        actual_logger.info("Конец работы функции: загрузка json-файла.\n" + "=" * 30)
+        actual_logger.info("Конец работы функции: загрузка excel-файла.\n" + "=" * 30)
