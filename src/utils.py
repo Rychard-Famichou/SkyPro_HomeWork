@@ -1,7 +1,4 @@
-import json
 import logging
-from pathlib import Path
-from typing import Any
 
 from src import external_api
 
@@ -11,30 +8,6 @@ actual_handler = logging.FileHandler("logs/utils.log", encoding="utf-8", mode="w
 actual_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s - %(message)s")
 actual_handler.setFormatter(actual_formatter)
 actual_logger.addHandler(actual_handler)
-
-
-def load_operations(file_path: str | Path) -> list[dict[str, Any]]:
-    """
-    Преобразует JSON-файл в json-объект для python
-    """
-    path = Path(file_path)
-    actual_logger.info("Старт работы функии: загрузка json-файла.")
-    try:
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-
-        if not isinstance(data, list):
-            raise TypeError("Данные в JSON не являются списком")
-
-        actual_logger.info("Функция отработала в штатном режиме")
-        return data
-
-    except (FileNotFoundError, json.JSONDecodeError, TypeError) as e:
-        actual_logger.error(f"Ошибка при загрузке: {e}")
-        return []
-
-    finally:
-        actual_logger.info("Конец работы функии: загрузка json-файла.\n" + "=" * 30)
 
 
 def get_operation_amount(operation: dict) -> float:

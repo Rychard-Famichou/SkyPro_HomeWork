@@ -14,6 +14,13 @@ def test_filter_by_state(dict_list_processing):
     ]
 
 
+def test_filter_by_state_canceled(dict_list_processing):
+    assert processing.filter_by_state(dict_list_processing, "CANCELED") == [
+        {"date": "2018-09-12T21:27:25.241689", "id": 594226727, "state": "CANCELED"},
+        {"date": "2018-10-14T08:21:33.419441", "id": 615064591, "state": "CANCELED"},
+    ]
+
+
 def test_sort_by_date(dict_list_processing):
     assert processing.sort_by_date(dict_list_processing) == [
         {"date": "2019-07-03T18:35:29.512364", "id": 414288290, "state": "EXECUTED"},
